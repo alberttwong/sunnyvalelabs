@@ -4,7 +4,7 @@ policies:
   resource: ec2
   comment: |
     Find all (non-ASG) instances that are not conformant
-    to tagging policies, and tag them for stoppage in 1 days.
+    to tagging policies, and tag them for stoppage in 1 hour.
   filters:
     - "tag:aws:autoscaling:groupName": absent
     - "tag:c7n_status": absent
@@ -15,7 +15,7 @@ policies:
     - type: mark-for-op
       tag: c7n_status
       op: stop
-      days: 1
+      hours: 1
 
 - name: ec2-tag-compliance-unmark
   resource: ec2
@@ -52,7 +52,7 @@ policies:
     - type: mark-for-op
       tag: c7n_status
       op: terminate
-      days: 3
+      days: 2
 
 - name: ec2-tag-compliance-terminate
   resource: ec2
