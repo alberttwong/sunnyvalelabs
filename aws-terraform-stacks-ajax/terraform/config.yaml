@@ -1,0 +1,76 @@
+# [Required] Select product flow
+# Possible values - core/lite
+productFlow: core 
+
+# [Required] Your onehouse requestId
+# Either provider the requestId directly or provide the secretArn of the secret containing the requestId
+requestId: cb45fe9f-adc3-541c-8eaa-4fddb696a348
+requestIdSecretManager:
+  enabled: false
+  secretArn: <SECRET_ARN>
+
+# [Required] Onehouse environment. 
+# Possible values - production/staging
+environment: production
+
+# [Required] Restrict onehouse access to below buckets only
+# Bucket ARN Example - arn:aws:s3:::<bucket_name>
+s3BucketArns:
+  - arn:aws:s3:::oh-project-ajax
+  - arn:aws:s3:::oh-project-ajax-load
+  - arn:aws:s3:::onehouse-customer-bucket-cb45fe9f
+  - arn:aws:s3:::oh-project-ajax-observed
+
+# Enable this if you want to use load existing data (JSON, CSV, Parquet etc ) from S3
+# If enabled, the script will ask for permissions to access SNS/SQS
+# Bucket ARN Example - arn:aws:s3:::<bucket_name>
+# You can add multiple bucket ARNs
+s3DataLoad:
+  enabled: false
+  s3DataSourceBucketArns:
+    - arn:aws:s3:::oh-project-ajax-load
+
+# Enable this if you want to capture data from Amazon Managed Streaming for Apache Kafka (MSK) 
+# Possible values - true/false
+mskDataLoad: 
+  enabled: true
+
+# Enable this if you want to load data from databases (postgres, mySQL etc.), data will be streamed via an MSK cluster provisioned in your account.
+# If you are enabling this flag, make sure to enable mskDataLoad as well.
+# Possible values - true/false
+databaseDataLoad:
+  enabled: true
+
+# Enable this if you want to sync to AWS Glue
+glueSync:
+  enabled: true
+
+guardDuty:
+  enabled: true
+
+secretsManagerConfig:
+# Specifies the permissions to secrets/secrets-manager in the customer cloud account for connecting to datasources and external entities.
+# Supported values:
+# - "OMS": [DEFAULT] Onehouse managed secrets, users input credentials(username/password, api keys etc.) via Onehouse UI or API. Credentials 
+#   are stored in Onehouse management layer outside customer cloud account. Users enabled to use Onehouse UI to update credentials/rotate key 
+#   via supported edit flows.
+# 
+# - "BYOS": [RECOMMENDED] Bring your own secret, users create/update/delete secrets in the Secrets Manager in customer cloud account.
+#   Secret is expected to have tag "accessibleTo" set to "onehouse" and secrets for different resources are expected to be stored in a pre-defined JSON format 
+#   as defined in Onehouse docs. eks_node_role will be granted read permissions to secrets having tag "accessibleTo" set to "onehouse".
+  credentialsManagementType: OMS
+
+# Enable this if you want to mount onehouse specific secrets directly from AWS secret manager
+ascp:
+  enabled: false
+
+# Specifies the permissions to dynamodb table for using it as lock for observed data lake tables. 
+lockProviderConfig:
+  enableDynamoDB: true
+
+# Enable this to create a bastion host. Onehouse will access the cluster using this bastion host.
+# Pass the VPC ID and private subnet ID where the cluster should be created.
+createBastionHost:
+  enabled: false
+  vpcID: <VPC_ID>
+  privateSubnetID: <PRIVATE_SUBNET_ID>

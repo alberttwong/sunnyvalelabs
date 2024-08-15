@@ -1,0 +1,82 @@
+
+---[2023-05-04 14:56:00] [release-v0.1.0] ---
+
+
+---[2023-05-25 17:28:01] [release-v0.2.0] ---
+012935b [ONHS-8531] Few more permissions for IAM openIDConnectProvider (#45)
+db7d3f1 [ONHS-8513] Changes for new role for ebs csi driver. (#44)
+03b2e3c [ONHS-8344] Fix permission for glue sync for discover call. (#42)
+6f6cdd2 [ONHS-7601] Provision SASL username/password when local.config.mskDataLoad.enabled is true (#40)
+94585f2 [ONHS-8163] Adding application-autoscaling access to core role policy (#41)
+09dbfd0 [ONHS-8036] Adding eks node IAM role MSK read permissions (#39)
+55d2ee1 [ONHS-7432] Upgrade to version release-v0.1.0 (#37)
+
+---[2023-08-18 16:38:14] [release-v0.3.0] ---
+fd5a990 [ONHS-8236, ONHS-8235] make changes in Onboarding flow to give us minimal access to customers cloud managed secret store (#38)
+f7e736a [ONHS-9298] Add KMS read permissions in eks_node_msk_access_policy (#47)
+c2c2bba [ONHS-8531]Upgrade to version release-v0.2.0 (#46)
+
+---[2023-09-28 23:49:11] [release-v0.4.0] ---
+4ed49b0 [ONHS-11549] Refactor and Fix permissions for MSK provisioning and autoscaling (#55)
+e917a33 ENG-2442: Make config path configurable (#53)
+64aaaa6 [ONHS-11454] Add perms for describe Nat Gateway (#51)
+423e0b5 ONHS-11140: Update pr-title-checker-config.json (#49)
+51c37fc [ONHS-6934] Upgrade to version release-v0.3.0 (#48)
+
+---[2023-10-20 11:28:44] [release-v0.5.0] ---
+bb81c7d [ONHS-11635] added eks service policy in eks role (#58)
+54c0017 [ENG-2036] add lifecylce permissions (#52)
+ca61ffc [ENG-2668] updated the secret manager read policy name (#57)
+0e279de [ONHS-11549] Upgrade to version release-v0.4.0 (#56)
+
+---[2023-12-19 15:46:22] [release-v0.6.0] ---
+8d2d13b [ENG-4206] added permissions to create volume for node (#66)
+b25ba97 [ENG-4514] Added customer support role (#65)
+ba92064 [ENG-4057] added permissions to create guarduty agent and required resources (#61)
+12ce177 [ENG-3932] Treat Request ID as a secret (#64)
+59b57ff [ENG-3838] Added permission to enable dynamodb for external writer (#63)
+3bdbfaa [ENG-4517] merge the glue sync, secrets manager and msk data load policy for node role (#62)
+ed0f01d [ENG-4272] Remove the node role from the core-role's assume policy (#60)
+c33ab71 [ENG-2048] script to safely apply the latest terraform stack (#50)
+cb92b7b [ONHS-11708] Upgrade to version release-v0.5.0 (#59)
+
+---[2023-12-21 15:05:36] [release-v0.7.0] ---
+45cb3d3 [ENG-5086] Revert "[ENG-4272] Remove the node role from the core-role's assume policy" (#68)
+4cbe8d9 [ENG-3916] Upgrade to version release-v0.6.0 (#67)
+
+---[2024-01-17 19:03:29] [release-v0.8.0] ---
+65c55db [ENG-4912] Adding permissions to create/update/delete/tag secrets (#75)
+d054333 [ENG-5513] Updated the install script to fetch request ID from secrets manager (#73)
+982269f [ENG-4741] trimmed down sqs/sns permissions (#72)
+83ca850 [ENG-5241] changed the defaults of onboarding config to true (#70)
+788f750 [ENG-5086] Upgrade to version release-v0.7.0 (#69)
+
+---[2024-01-19 15:39:15] [release-v0.9.0] ---
+d86e944 [ENG-4912] Add permission to update secrets to via terraform using core role (#77)
+24df676 [AUDIT-607] Upgrade to version release-v0.8.0 (#76)
+
+---[2024-01-30 13:09:49] [release-v0.10.0] ---
+ddac190 [ENG-6115] Fixed the aggregate policy condition (#79)
+ac86370 [ENG-5524] Add the permissions to create snapshots and create volume using those snapshots (#74)
+90901d4 [ENG-4912] Upgrade to version release-v0.9.0 (#78)
+
+---[2024-02-08 13:36:27] [release-v0.11.0] ---
+8a9074a [AUDIT-644] Updated few more permissions in aws customer stack (#84)
+59f25bd [ENG-6102] Upload config only after terraform run is successful (#81)
+3f37919 [ENG-6161] Upgrade to version release-v0.10.0 (#80)
+
+---[2024-03-07 10:07:33] [release-v0.12.0] ---
+0b7adb4 [ENG-6724] Updated the ssm document name (#89)
+0220e7a [ENG-6724] added support of bastion in customer cluster (#88)
+0f63067 [ENG-5150] Removed the enabled flag to simplify adding the s3 data source bucke… (#87)
+3093d6b [ENG-3916] Updated the policies for eks addon (#86)
+293009a [AUDIT-644] Upgrade to version release-v0.11.0 (#85)
+
+---[2024-03-28 03:20:31] [release-v0.13.0] ---
+611b510 [ENG-7742] Added permissions to use custom launch template for eks node groups (#91)
+5ad1841 [ENG-6173] Add s3 read permission for CSI role (#92)
+0a5c243 [ENG-7142] Upgrade to version release-v0.12.0 (#90)
+
+---[2024-03-28 14:18:00] [release-v0.13.1] ---
+4481000 [ENG-8128] Reverted the change to simplify s3 dataload config (#94)
+7dc3285 [AUDIT-720] Upgrade to version release-v0.13.0 (#93)
