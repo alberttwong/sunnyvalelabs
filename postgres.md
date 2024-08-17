@@ -1,3 +1,4 @@
+```
 -- global changes
 CREATE USER cdc_user WITH ENCRYPTED PASSWORD '<password>';
 GRANT rds_superuser TO cdc_user;
@@ -132,3 +133,4 @@ INSERT INTO users (user_id, name, city, email, created_at,address,state)
 VALUES
     ('5', 'Juan Montenegro', 'New York', 'john@example.com', '2022-01-01', '123 Main St', 'NY');
    
+```
