@@ -26,7 +26,7 @@ s3BucketArns:
 # Bucket ARN Example - arn:aws:s3:::<bucket_name>
 # You can add multiple bucket ARNs
 s3DataLoad:
-  enabled: false
+  enabled: true
   s3DataSourceBucketArns:
     - arn:aws:s3:::oh-project-sunnyvalelabs-load
 
