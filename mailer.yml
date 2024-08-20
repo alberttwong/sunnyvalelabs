@@ -1,0 +1,7 @@
+queue_url: https://sqs.us-west-2.amazonaws.com/654654235321/cloudcustodian
+role: arn:aws:iam::654654235321:role/CloudCustodianRole
+slack_token: xoxb-XXYYY
+from_address: albert@onehouse.ai
+region: us-west-2
+lambda_tags:
+  owner: ops
