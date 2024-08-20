@@ -16,6 +16,14 @@ policies:
       tag: c7n_status
       op: stop
       hours: 1
+    - type: notify
+      slack_template: slack_default
+      to:
+        - albert@onehouse.ai
+        - slack://test-custodian
+      transport:
+        type: sqs
+        queue: https://sqs.us-west-2.amazonaws.com/654654235321/cloudcustodian
 
 - name: ec2-tag-compliance-unmark
   resource: ec2
@@ -87,3 +95,38 @@ policies:
         - "tag:Project": absent
   actions:
     - stop
+
+- name: ec2-auto-tag-user
+  resource: ec2
+  mode:
+    type: cloudtrail
+    role: arn:aws:iam::{account_id}:role/CloudCustodianRole
+    # note {account_id} is optional. If you put that there instead of
+    # your actual account number, when the policy is provisioned it
+    # will automatically inherit the account_id properly
+    events:
+      - RunInstances
+  filters:
+    - tag:CreatorName: absent
+  actions:
+    - type: auto-tag-user
+      tag: CreatorName
+      principal_id_tag: CreatorId
+
+#- name: c7n-mailer-test
+#  resource: ec2
+#  filters:
+#    - "tag:MailerTest": absent
+#  actions:
+#    - type: notify
+#      template: default
+#      priority_header: '2'
+#      subject: testing the c7n mailer
+#        slack_template: slack_default
+#      slack_msg_color: danger
+#      to:
+#        - albert@onehouse.ai
+#        - slack://test-custodian
+#      transport:
+#        type: sqs
+#        queue: https://sqs.us-west-2.amazonaws.com/654654235321/cloudcustodian
