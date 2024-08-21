@@ -21,7 +21,7 @@ policies:
       violation_desc: Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
       action_desc: Please go TAG your resources with "Owner" and "Project".
       to:
-        - https://hooks.slack.com/services/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
+        - https://hooks.slack.com/services/T01QS1D2SET/YYY/XXX
         - albert@onehouse.ai
         - solutions@onehouse.ai
       transport:
