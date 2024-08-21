@@ -3,8 +3,7 @@ policies:
 - name: ec2-tag-compliance-mark
   resource: ec2
   comment: |
-    Find all (non-ASG) instances that are not conformant
-    to tagging policies, and tag them for stoppage in 1 hour.
+    Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
   filters:
     - "tag:aws:autoscaling:groupName": absent
     - "tag:c7n_status": absent
@@ -18,9 +17,13 @@ policies:
       hours: 1
     - type: notify
       slack_template: slack_default
+      slack_msg_color: danger
+      violation_desc: Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
+      action_desc: Please go TAG your resources with "Owner" and "Project".
       to:
+        - https://hooks.slack.com/services/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
         - albert@onehouse.ai
-        - slack://test-custodian
+        - solutions@onehouse.ai
       transport:
         type: sqs
         queue: https://sqs.us-west-2.amazonaws.com/654654235321/cloudcustodian
