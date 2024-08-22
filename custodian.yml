@@ -14,14 +14,14 @@ policies:
     - type: mark-for-op
       tag: c7n_status
       op: stop
-      hours: 1
+      hours: 6
     - type: notify
       slack_template: slack_default
       slack_msg_color: danger
       violation_desc: Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
       action_desc: Please go TAG your resources with "Owner" and "Project".
       to:
-        - https://hooks.slack.com/services/T01QS1D2SET/YYY/XXX
+        - https://hooks.slack.com/services/T01QS1D2SET/YY/XX
         - albert@onehouse.ai
         - solutions@onehouse.ai
       transport:
@@ -110,10 +110,44 @@ policies:
     events:
       - RunInstances
   filters:
-    - tag:CreatorName: absent
+    - tag:Owner: absent
   actions:
     - type: auto-tag-user
-      tag: CreatorName
+      tag: Owner
+      principal_id_tag: CreatorId
+
+- name: s3-auto-tag-user
+  resource: s3
+  mode:
+    type: cloudtrail
+    role: arn:aws:iam::{account_id}:role/CloudCustodianRole
+    # note {account_id} is optional. If you put that there instead of
+    # your actual account number, when the policy is provisioned it
+    # will automatically inherit the account_id properly
+    events:
+      - CreateBucket
+  filters:
+    - tag:Owner: absent
+  actions:
+    - type: auto-tag-user
+      tag: Owner
+      principal_id_tag: CreatorId
+
+- name: rds-auto-tag-user
+  resource: rds
+  mode:
+    type: cloudtrail
+    role: arn:aws:iam::{account_id}:role/CloudCustodianRole
+    # note {account_id} is optional. If you put that there instead of
+    # your actual account number, when the policy is provisioned it
+    # will automatically inherit the account_id properly
+    events:
+      - CreateDBInstance
+  filters:
+    - tag:Owner: absent
+  actions:
+    - type: auto-tag-user
+      tag: Owner
       principal_id_tag: CreatorId
 
 #- name: c7n-mailer-test
