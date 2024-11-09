@@ -1,0 +1,10 @@
+[Unit]
+Description=cloudcustodian
+
+[Timer]
+OnCalendar=*:0/30
+Persistent=true
+Unit=custodian.service
+
+[Install]
+WantedBy=multi-user.target
