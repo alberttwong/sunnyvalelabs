@@ -1,0 +1,7 @@
+[Unit]
+Description=Custodian
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/home/ec2-user/sunnyvalelabs/custodian_cronjob.sh
