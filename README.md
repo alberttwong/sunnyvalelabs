@@ -6,6 +6,7 @@
 
 2. install cloud custodian
 ```
+aws configure
 pip install c7n 
 ```
 
@@ -14,12 +15,12 @@ pip install c7n
 git clone https://github.com/alberttwong/sunnyvalelabs.git
 ```
 
-4. install cronie
+4. systemd
 ```
-Follow https://jainsaket-1994.medium.com/installing-crontab-on-amazon-linux-2023-ec2-98cf2708b171
-```
-
-5. crontab
-```
-*/5 * * * * /home/ec2-user/sunnyvalelabs/custodian_cronjob.sh >> /home/ec2-user/sunnyvalelabs/logs/custodian.log 2>&1
+cp /etc/systemd/system/custodian.timer
+cp /etc/systemd/system/custodian.service
+sudo systemctl daemon-reload
+sudo systemctl enable custodian.timer
+sudo systemctl start custodian.timer
+sudo journalctl -u custodian.service
 ```
