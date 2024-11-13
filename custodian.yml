@@ -1,104 +1,5 @@
 policies:
 
-- name: ec2-tag-compliance-mark
-  resource: ec2
-  comment: |
-    Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
-  filters:
-    - "tag:aws:autoscaling:groupName": absent
-    - "tag:c7n_status": absent
-    - or:
-        - "tag:Owner": absent
-        - "tag:Project": absent
-  actions:
-    - type: mark-for-op
-      tag: c7n_status
-      op: stop
-      hours: 6
-    - type: notify
-      slack_template: slack_default
-      slack_msg_color: danger
-      violation_desc: Find all (non-ASG) instances that are not conformant to tagging policies, and tag them for stoppage in 1 hour.
-      action_desc: Please go TAG your resources with "Owner" and "Project".
-      to:
-        - https://hooks.slack.com/services/T01QS1D2SET/YY/XX
-        - albert@onehouse.ai
-        - solutions@onehouse.ai
-      transport:
-        type: sqs
-        queue: https://sqs.us-west-2.amazonaws.com/654654235321/cloudcustodian
-
-- name: ec2-tag-compliance-unmark
-  resource: ec2
-  comment: |
-    Any instances which have previously been marked as
-    non compliant with tag policies, that are now compliant
-    should be unmarked as non-compliant.
-  filters:
-    - "tag:Owner": not-null
-    - "tag:Project": not-null
-    - "tag:c7n_status": not-null
-  actions:
-    - type: remove-tag
-      tags:
-        - c7n_status
-
-- name: ec2-tag-compliance-stop
-  resource: ec2
-  comment: |
-    Stop all non autoscaling group instances previously marked
-    for stoppage by today's date, and schedule termination in
-    2 days. Also verify that they continue to not meet tagging
-    policies.
-  filters:
-    - "tag:aws:autoscaling:groupName": absent
-    - type: marked-for-op
-      tag: c7n_status
-      op: stop
-    - or:
-        - "tag:Owner": absent
-        - "tag:Project": absent
-  actions:
-    - stop
-    - type: mark-for-op
-      tag: c7n_status
-      op: terminate
-      days: 2
-
-- name: ec2-tag-compliance-terminate
-  resource: ec2
-  comment: |
-    Terminate all stopped instances marked for termination
-    by today's date.
-  filters:
-    - "tag:aws:autoscaling:groupName": absent
-    - type: marked-for-op
-      tag: c7n_status
-      op: terminate
-    - or:
-        - "tag:Owner": absent
-        - "tag:Project": absent
-  actions:
-    - type: terminate
-      force: true
-
-- name: ec2-tag-compliance-nag-stop
-  resource: ec2
-  comment: |
-    Stop all instances marked for termination every hour
-    starting 1 day before their termination.
-  filters:
-    - "tag:aws:autoscaling:groupName": absent
-    - type: marked-for-op
-      tag: c7n_status
-      op: terminate
-      skew: 1
-    - or:
-        - "tag:Owner": absent
-        - "tag:Project": absent
-  actions:
-    - stop
-
 - name: ec2-auto-tag-user
   resource: ec2
   mode:
@@ -149,7 +50,24 @@ policies:
     - type: auto-tag-user
       tag: Owner
       principal_id_tag: CreatorId
-
+      
+- name: ecs-auto-tag-user
+  resource: ecs
+  mode:
+    type: cloudtrail
+    role: arn:aws:iam::{account_id}:role/CloudCustodianRole
+    # note {account_id} is optional. If you put that there instead of
+    # your actual account number, when the policy is provisioned it
+    # will automatically inherit the account_id properly
+    events:
+      - CreateCluster
+  filters:
+    - tag:Owner: absent
+  actions:
+    - type: auto-tag-user
+      tag: Owner
+      principal_id_tag: CreatorId
+      
 #- name: c7n-mailer-test
 #  resource: ec2
 #  filters:
