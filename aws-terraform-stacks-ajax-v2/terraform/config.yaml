@@ -20,13 +20,14 @@ s3BucketArns:
   - arn:aws:s3:::oh-project-ajax-load
   - arn:aws:s3:::onehouse-customer-bucket-cb45fe9f
   - arn:aws:s3:::oh-project-ajax-observed
+  - arn:aws:s3:::po-hudi-us-west-2
 
 # Enable this if you want to use load existing data (JSON, CSV, Parquet etc ) from S3
 # If enabled, the script will ask for permissions to access SNS/SQS
 # Bucket ARN Example - arn:aws:s3:::<bucket_name>
 # You can add multiple bucket ARNs
 s3DataLoad:
-  enabled: false
+  enabled: true
   s3DataSourceBucketArns:
     - arn:aws:s3:::oh-project-ajax-load
 
